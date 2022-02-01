@@ -1,0 +1,224 @@
+﻿
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <div style="margin-top:100px">
+            <hr class="my-4" style="border-top:2px dotted #00f" />
+        </div>
+    </div>
+    <div class="col-1"></div>
+</div>
+
+@*<div class="row p-2" style="background-color:#ccddee">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6" style="padding-right:36px;text-align:left">
+            <button type="button" class="btn btn-warning" onclick="especialidadesIns();">
+                <i class="bi-person-plus-fill" style="color:#090"></i> Nuevo Cita
+            </button>
+        </div>
+    </div>*@
+<div class="row">
+    @foreach (var a in ViewBag.Lista)
+    {
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-4">
+            <div class="card bg-light border-info m-3">
+
+                <div class="card-header">
+                    <div style="float:left;font-size:large">
+
+                        <span class="font-weight-bold">@a.especialidad</span>
+                    </div>
+                    <div style="float:right">
+                        &nbsp;&nbsp;
+                        <a href="#" onclick="autoresDel('@a.idespecialidad', '@a.especialidad');" style="text-decoration:none">
+                            <i class="bi-person-dash-fill" style="color:#900"></i>
+                        </a>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+
+                <div style="clear:both"></div>
+                <div style="height:200px;overflow:auto">
+                    <table class="table">
+                        <tbody>
+                            @foreach (var f in a.medicos)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="#" onclick="" style="text-decoration:none">
+                                            <!--<i class="bi-file-earmark-plus-fill" style="color:#090"></i>--> @*aca cuando seleccionas que abra el modal para generar la cita trayendo al medico*@
+                                            <i class="bi bi-arrows-fullscreen" style="color:#090"></i>  @*aca cuando seleccionas que abra otro modal pero que te traiga la lista de los pacientes*@
+                                        </a>
+
+
+                                        <span id="medico_@f.idmedico">@f.nombre</span>
+                                        <button type="button" class="btn btn-warning text-right" onclick="citasIns('@a.idespecialidad','@a.especialidad','@f.idmedico','@f.nombre');">
+                                            <i class="bi-person-plus-fill" style="color:#090"></i> Nuevo Cita
+                                        </button>
+                                        <div class="text-right">
+
+                                            @*<a href="#" onclick="frasesUpd('@a.idpaciente','@a.nacimiento');" style="text-decoration:none">
+                                                <i class="bi-pen-fill" style="color:#009"></i>
+                                                </a>*@&nbsp;&nbsp;
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="row mt-1">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <table class="table table-striped table-hover table-bordered">
+
+            <thead class="table-primary">
+                <tr>
+                    <td>Paciente</td>
+                    <td>Medico</td>
+                    <td colspan="3">Dia/Hora</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var t in ViewBag.Listar)
+                {
+                    <tr>
+                        <td id="idpaciente_@t[0]">@t[1]</td>
+                        <td id="idmedico_@t[0]">@t[2]</td>
+                        <td id="diahora_@t[0]">@t[3]</td>
+
+                        <td style="width:20px">
+                            <button type="button" class="btn btn-danger" onclick="citasDel('@t[0]');">
+                                <i class="bi-trash"></i>
+                            </button>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+    <div class="col-1"></div>
+</div>
+
+@*<div id="dlg_citas" class="modal fade show" tabindex="-1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header" style="background-color: #d3e9fa">
+                    <h5 id="dlg_citas_title" class="modal-title">Nueva Cita</h5>
+                    <button type="button" class="btn-close"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" id="tbl_citas_accion" />
+                    <input type="hidden" id="tbl_citas_idcita" />
+
+
+                    <div class="row mt-3">
+                        <div class="col-md-12 col-lg-8">
+                            <label for="tbl_citas_paciente">Paciente</label>
+                            <select class="form-select mt-1" id="tbl_citas_paciente"></select>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-12 col-lg-8">
+                            <label for="tbl_citas_medico">Medico</label>
+                            <select class="form-select mt-1" id="tbl_citas_medico"></select>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-12 col-lg-4">
+                            <label for="tbl_citas_diahora">Dia/Hora</label>
+                            <input type="datetime" class="form-control" id="tbl_citas_diahora" placeholder="fecha de cita">
+                        </div>
+                    </div>
+
+
+
+                    <div id="dlg_medicos_errores" style="margin: 16px 30px;color: #900"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="citasInsUpd();" style="width: 120px;margin-right: 12px">Guardar</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="width: 120px">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--citas INSUPD-->
+<div class="modal fade" id="dlg_citas" style="display:none">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-light">
+                <h5 id="dlg_citas_title" class="modal-title">Nuevo Cita</h5>
+                <button type="button" class="btn-close" data-bsdismiss="modal" aria-label="close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form>
+                            <input type="hidden" id="tbl_citas_accion" />
+                            <input type="hidden" id="tbl_citas_idcita" />
+                            <input type="hidden" id="tbl_citas_idespecialidad" />
+                            <input type="hidden" id="tbl_citas_idmedico" />
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="tbl_citas_medico">Medico</label>
+                                    <input type="text" class="form-control" id="tbl_citas_medico" readonly />
+
+                                    <label for="tbl_citas_nombrep">Paciente</label>
+                                    <select class="form-control mt-1" id="tbl_citas_nombrep" required></select>
+
+                                    <label for="tbl_citas_diahora">Fecha</label>
+                                    <input type="text" class="form-control" id="tbl_citas_diahora" required />
+
+                                </div>
+                            </div>
+                        </form>
+                        <div id="dlg_citas_errores" style="margin:16px 30px;color:#900"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="citasInsUpd();"
+                        style="width:120px;margin-right:12px">
+                    Guardar
+                </button>
+                <button type="button" class="btn btn-primary" data-bsdismiss="modal" style="width:120px">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+</div>

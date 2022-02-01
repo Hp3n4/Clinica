@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>cibertec.edu.pe</title>
+    <link rel="shortcut icon" href="images/pi-favicon.gif" type="image/x-icon" />
+
+    <link href="~/jq/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/jq/bootstrap/bootstrap-icons.min.css" rel="stylesheet" />
+
+    <link href="~/css/main.css" rel="stylesheet" />
+</head>
+<body>
+    <!--menu ini-->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color:#def; font-size:1.1em;border-bottom:1px solid #e1e5e8;padding:5px 15px">
+        <!--logo-->
+        <a class="navbar-brand" href="../Home/Index" title="Ir al Inicio">
+            <img class="d-inline-block align-top" src="~/images/logo.gif" alt="" />
+            <span style="font-size:x-large;font-weight:bold;padding-left:6px;color:#369">parainfo</span>
+        </a>
+        <!--hamburguesa-->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#barraDeMenu" aria-controls="barraDeMenu" aria-expanded="false" aria-label="Togle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!--menus-->
+        <div id="barraDeMenu" class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <!--Pacientes-->
+                <li class="nav-item">
+                    <a href="../Home/Pacientes" class="nav-link">
+                        <i class="bi-people"></i> Pacientes
+                    </a>
+                </li>
+                <!--Medicos-->
+                <li class="nav-item">
+                    <a href="../Home/Medicos" class="nav-link">
+                        <i class="bi-people-fill"></i> Medicos
+                    </a>
+                </li>
+                <!--Citas-->
+                <li class="nav-item">
+                    <a href="../Home/Citas" class="nav-link">
+                        <i class="bi-heart-fill"></i> Citas
+                    </a>
+                </li>
+                <!--reportes-->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="menu_productos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi-book-half"></i> Reportes
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="menu_productos">
+                        <a class="dropdown-item" href="../Home/DepaProv">
+                            <i class="bi-emoji-heart-eyes-fill" style="color:#0f0"></i> Citas
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <i class="bi-emoji-sunglasses" style="color:#c6f"></i> Listas
+                        </a>                        
+                    </div>
+                </li>
+                <!--Home-->
+                <li class="nav-item">
+                    <a href="../Home/Index" class="nav-link">
+                        <i class="bi-house"></i> Home
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <!--menu fin-->
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+
+    <!-- dlg_message -->
+    <div class="modal fade" id="dlg_message" style="display:none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary text-light">
+                    <h5 id="dlg_message_title" class="modal-title">Mensaje</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="dlg_message_msg" class="p-4"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- dlg_confirm -->
+    <div class="modal fade" id="dlg_confirm" style="display:none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary text-light">
+                    <h5 id="dlg_confirm_title" class="modal-title">Confirme</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="dlg_confirm_msg" class="p-4"></div>
+
+                            <input type="hidden" id="dlg_confirm_dato1" />
+                            <input type="hidden" id="dlg_confirm_dato2" />
+
+                            <div id="dlg_confirm_error" class="alert alert-danger m-3 p-3 text-center"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" onclick="dlg_confirm_confirm();">Si</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script>var urlGerneral="@Url.Content("~/")"</script> 
+    <script src="~/jq/jquery-3.6.0.min.js"></script>
+    <script src="~/jq/bootstrap/bootstrap.bundle.min.js"></script>
+   
+    <script src="~/js/main.js"></script>
+</body>
+</html>

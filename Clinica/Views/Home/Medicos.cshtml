@@ -1,0 +1,173 @@
+﻿
+
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+        <div style="margin-top:100px">
+            <hr class="my-4" style="border-top:2px dotted #00f" />
+        </div>
+    </div>
+    <div class="col-1"></div>
+</div>
+
+<div class="row p-2" style="background-color:#ccddee">
+    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6" style="padding-right:36px;text-align:left">
+        <button type="button" class="btn btn-warning" onclick="especialidadesIns();">
+            <i class="bi-person-plus-fill" style="color:#090"></i> Nuevo Especialidad
+        </button>
+    </div>
+</div>
+<div class="row">
+    @foreach (var a in ViewBag.Lista)
+    {
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-4">
+            <div class="card bg-light border-info m-3">
+
+                <div class="card-header">
+                    <div style="float:left;font-size:large">
+                        <a href="#" onclick="medicosIns('@a.idespecialidad', '@a.especialidad');" style="text-decoration:none">
+                            <i class="bi-file-earmark-plus-fill" style="color:#090"></i>
+                        </a>
+                        <span class="font-weight-bold">@a.especialidad</span>
+                    </div>
+                    <div style="float:right">
+                        &nbsp;&nbsp;
+                        <a href="#" onclick="autoresDel('@a.idespecialidad', '@a.especialidad');" style="text-decoration:none">
+                            <i class="bi-person-dash-fill" style="color:#900"></i>
+                        </a>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+
+                <div style="clear:both"></div>
+                <div style="height:200px;overflow:auto">
+                    <table class="table">
+                        <tbody>
+                            @foreach (var f in a.medicos)
+                            {
+                                <tr>
+                                    <td>
+                                        <span id="idpaciente_@f.idmedico">@f.nombre</span>
+                                        <div class="text-right">
+                                            @*<a href="#" onclick="frasesUpd('@a.idpaciente','@a.nacimiento');" style="text-decoration:none">
+                                                    <i class="bi-pen-fill" style="color:#009"></i>
+                                                </a>*@&nbsp;&nbsp;
+                                            <a href="#" onclick="medicosDel('@f.idmedico','@f.nombre');" style="text-decoration:none">
+                                                <i class="bi-x-octagon-fill" style="color:#900"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<!--medicos INSUPD-->
+<div class="modal fade" id="dlg_medicos" style="display:none">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-light">
+                <h5 id="dlg_medicos_title" class="modal-title">Nuevo Medico</h5>
+                <button type="button" class="btn-close" data-bsdismiss="modal" aria-label="close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form>
+                            <input type="hidden" id="tbl_medicos_accion" />
+                            <input type="hidden" id="tbl_medicos_idespecialidad" />
+                            <input type="hidden" id="tbl_medicos_idmedico" />
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="tbl_medicos_especialidad">Especialidad</label>
+                                    <input type="text" class="form-control" id="tbl_medicos_especialidad" />
+                                    <label for="tbl_medicos_nombre">Medico</label>
+                                    <input type="text" class="form-control" id="tbl_medicos_nombre"
+                                           placeholder="nombre de medico entre [10, 100] caracteres" />
+                                </div>
+                            </div>
+                        </form>
+                        <div id="dlg_autores_errores" style="margin:16px 30px;color:#900"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="medicosInsUpd();"
+                        style="width:120px;margin-right:12px">
+                    Guardar
+                </button>
+                <button type="button" class="btn btn-primary" data-bsdismiss="modal" style="width:120px">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--especialidades INSUPD-->
+<div class="modal fade" id="dlg_especialidades" style="display:none">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-light">
+                <h5 id="dlg_especialidades_title" class="modal-title">Nueva Especialidad</h5>
+                <button type="button" class="btn-close" data-bsdismiss="modal" aria-label="close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form>
+                            <input type="hidden" id="tbl_especialidades_accion" />
+                            <input type="hidden" id="tbl_especialidades_idespecialidad" />                            
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="tbl_especialidades_especialidad">Especialidad</label>
+                                    <input type="text" class="form-control" id="tbl_especialidades_especialidad"                                    
+                                           placeholder="defina especialidad entre [10, 100] caracteres" />
+                                </div>
+                            </div>
+                        </form>
+                        <div id="dlg_especialidades_errores" style="margin:16px 30px;color:#900"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="especialidadesInsUpd();"
+                        style="width:120px;margin-right:12px">
+                    Guardar
+                </button>
+                <button type="button" class="btn btn-primary" data-bsdismiss="modal" style="width:120px">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*<div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <div class="alert alert-primary" style="margin-top:100px">
+                <h1>
+                    <i class="bi-globe" style="font-size:48px; color:#cc66ff"></i> Hola!
+                </h1>
+                <p>
+                    Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola.
+                </p>
+                <hr class="my-4" style="border-top:2px dotted #00f" />
+                <p>
+                    Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola
+                    Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola
+                    Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola
+                    Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola Hola
+                </p>
+                <a class="btn btn-success" href="#">Leer mas...</a>
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>*@
